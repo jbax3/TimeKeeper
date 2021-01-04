@@ -1,4 +1,5 @@
-# About
+# Time Keeper
+## About
 This is a very simple Python glue script written for **OSX** for polling the active window every 30s and logging a 3-tuple (timestamp [UTC], window name [most often application name], window title [often task specific like website of document name]) to a CSV file.
 
 It has four components:
