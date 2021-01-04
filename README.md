@@ -9,12 +9,12 @@ It has four components:
 4. a While-True loop with a 30s sleep. If after 30s, the idle time < 30s, then the window and title are logged, otherwise they are omitted presuming you are engaging in a low-interaction task and if you interact again, you'll see the same task immediately adjacent with a long time window without an unlock event.
 
 ## Parameters
-1. The first parameter is setting your logging location and log name.
-2. The second parameter allows you to set your polling and idle time (same number).
+1. `time_log_location` - this variable sets your logging location and log name.
+2. `poll_interval` - this variable allows you to set your polling interval and idle time (same number).
 
 ## Testing
 You can test the script and its output as follows:
-python TimeKeeper.py
+`python TimeKeeper.py`
 
 ## Installing it as a Service
 `sudo launchctl load lock.plist`
