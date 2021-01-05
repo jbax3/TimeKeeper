@@ -21,3 +21,6 @@ You can test the script and its output as follows:
 
 ## Achieving greater browser granularity for web apps
 Lets say you use a web app that has multiple focusable components, i.e. Google Hangouts, you can figure out on your own how to identify the in-focus element, and then add a click event to change the document title to include some transparent feature of the in-focus element such as who you are chatting with. An example javascript snippet for this has been included targeted toward JupyterLab.
+
+### JupyterLab Extension
+I have now built this into a JupyterLab extension to do it automatically for JupyterLab: https://github.com/jbax3/extension-tab2title-js. I have not yet figured out packaging, so you would need to pull it and run the supplied install command from the README.md. If you run into any install issues, the first thing I would try is to make sure you have node > 10.0.
