@@ -1,16 +1,28 @@
+#!/Users/nothing/mambaforge/bin/python
 import os
 import subprocess
 from time import time, sleep
+sleep(20)
 
 # Parameters
-time_log_location = "/Users/username/TimeLog.csv"
+time_log_location = "/Users/nothing/TimeLog.csv"
 poll_interval = 30
 
 # A self-contained swift script to listen for the unlock event IOT log when the computer is unlocked
 # Allows for computation of time while computer is locked/asleep from last recorded non-idle event
+
+# Goes inside of Swift stuff IOT run Anki etc
+# func onUnlock() {
+#     _ = NSWorkspace.shared.open(
+#     	URL(fileURLWithPath: "/Users/nothing/PythonCode/Apple/OnUnlock.app"))
+# }
+
+# onUnlock()
+
 swift_lock_script = '''echo 'import Foundation
 import AppKit
 import SwiftUI
+import Cocoa
 
 func logUnlock() {
   do {  let dataString = String(Date().timeIntervalSince1970)+",\\"unlock\\",\\"unlock\\"\\n"
@@ -33,6 +45,7 @@ notificationCenter.addObserver(forName: NSNotification.Name(rawValue: "com.apple
                                queue: nil,
                                using: { _ in
   logUnlock()
+
                                 
 })
 
@@ -80,8 +93,14 @@ subprocess.Popen(swift_lock_script, executable='/bin/bash', shell=True).pid
 while True:
 	sleep(poll_interval)
 	idle_time = subprocess.Popen(idle_time_script, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.read().decode().rstrip('\n').replace(', ',',')
-	if float(idle_time) < poll_interval:
-		window = subprocess.Popen(window_script, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.read().decode().rstrip('\n').replace(', ',',').replace('"','``')
-		title = subprocess.Popen(title_script, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.read().decode().rstrip('\n').replace(', ',',').replace('"','``')
-		with open(time_log_location,'a+') as f:
-			f.write(f'{time()},"{window}","{title}"\n')
+	try:
+		idle_time = float(idle_time)
+		if idle_time < poll_interval:
+			window = subprocess.Popen(window_script, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.read().decode().replace('\n','').replace(', ',',').replace('"','``')
+			title = subprocess.Popen(title_script, shell=True, executable='/bin/bash', stdout=subprocess.PIPE).stdout.read().decode().replace('\n','').replace(', ',',').replace('"','``')
+			with open(time_log_location,'a+') as f:
+				f.write(f'{time()},"{window}","{title}"\n')
+	except:
+		print(idle_time)
+		pass
+	
